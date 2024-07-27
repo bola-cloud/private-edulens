@@ -1,0 +1,24 @@
+body, body *:not(.fa):not(.icon):not([class^="fa-"]):not([class^="icon-"]) {
+    font-family: 'system-ui' !important;
+}
+
+
+a.nav-link{
+    direction: rtl !important;
+}
+
+.sidebar .nav .nav-item .nav-link i.menu-icon{
+    margin-right: 0;
+    margin-left: 1rem;
+}
+ul.nav.flex-column.sub-menu{
+    padding: 0.25rem 3.07rem 0 0 !important;
+}
+i.menu-arrow{
+    margin-left: 0 !important;
+    margin-right: auto !important;
+}
+li.nav-item{
+    /* display: flex !important; */
+    direction: rtl !important;
+}
