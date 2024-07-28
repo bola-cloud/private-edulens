@@ -22,6 +22,7 @@
                 background-image: url('{{asset('media/Subtract1.svg')}}');
             }
         </style>
+        @stack('styles')
     </head>
     <body class="font-sans antialiased">
         <div class="container-fluid shadow-card">

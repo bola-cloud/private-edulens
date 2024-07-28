@@ -7,7 +7,7 @@ a{
 :root {
     --darkbg:#251D29 !important;
     --darkt: #FEFEFE !important;
-    --lightbg: #fff !important;
+    --lightbg: #F3F1F1 !important;
     --lightt: black !important;
     
     --toggleHeight: 16em;
@@ -395,4 +395,87 @@ body{
 .nested-accordion{
     text-align: justify;
     border-right: 2px solid #b89549;
+}
+
+button.btn-close{
+    margin: unset !important;
+}
+.question-head{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+.pagination-buttons:active,.pagination-buttons:hover{
+    background: #c1a156;
+    color: white;
+    border-radius: 48px;
+}
+.pagination-buttons{
+    background: #e7e7e7;
+    color: black;
+    border-radius: 48px;
+}
+.next-back{
+    border: 2px solid #dee2e6;
+    border-radius: 100px;
+}
+
+.question-pagination .btn {
+    border-radius: 50%;
+    margin: 0 5px;
+    padding: 5px 10px;
+    position: relative;
+}
+.choices .choice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+.choices .choice:hover {
+    background-color: #f0f0f0;
+}
+.choices .choice input[type="radio"] {
+    display: none;
+}
+.choices .choice img {
+    max-width: 220px;
+    margin-right: 10px;
+}
+.choices .choice span {
+    display: inline-block;
+}
+.choices .choice input[type="radio"]:checked + span {
+    font-weight: bold;
+}
+/* .choices .choice.active {
+    background-color: #28a745;
+    color: #fff;
+} */
+.pagination-buttons:active,
+.pagination-buttons:hover {
+    background: #c1a156;
+    color: white;
+    border-radius: 48px;
+}
+.pagination-buttons {
+    background: #e7e7e7;
+    color: black;
+    border-radius: 48px;
+}
+.active-question {
+    background: #c1a156;
+    color: white;
+    border-radius: 48px;
+}
+.unanswered-dot {
+    color: red;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 20px;
 }

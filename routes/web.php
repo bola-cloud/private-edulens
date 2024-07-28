@@ -19,7 +19,8 @@ use App\Http\Controllers\Admin\StudentController;
 //front 
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\CoursesController;
-
+use App\Http\Controllers\Front\ExamsController;
+use App\Http\Controllers\Front\VideoController;
 use Inertia\Inertia;
 
 /*
@@ -135,5 +136,7 @@ Route::middleware([
 Route::get('/home', [HomeController::class, 'index'])->name('home'); 
 Route::get('/courses/{grade}', [HomeController::class, 'courses'])->name('courses'); 
 Route::get('/course/content/{course}', [CoursesController::class, 'index'])->name('course_content'); 
-Route::get('/course/content/video/{video}', [CoursesController::class, 'video'])->name('video_show'); 
-Route::get('/course/content/exam/{exam}', [CoursesController::class, 'exam'])->name('exam_show'); 
+Route::get('/course/content/video/{video}', [CoursesController::class, 'video'])->name('video_show');
+Route::get('/video/{id}', [VideoController::class, 'getVideo'])->name('video.get');
+Route::get('/course/content/exam/{exam}', [ExamsController::class, 'exam'])->name('exam_show'); 
+Route::post('/course/content/exam/result/{exam}', [ExamsController::class, 'submitExam'])->name('exam.submit'); 

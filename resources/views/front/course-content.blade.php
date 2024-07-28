@@ -38,7 +38,7 @@
                         </button>
                         <div id="collapse{{$key}}" class="accordion-collapse collapse w-100 p-2" aria-labelledby="heading{{$key}}" data-bs-parent="#courseContentAccordion">
                             @foreach($section->media as $index => $media)
-                                <div class="accordion-item course-content-collapse flex-column w-100 text-light bg-black row ">
+                                <div class="accordion-item course-content-collapse flex-column w-100 text-light bg-black row">
                                     <div class="col-md-12 p-0">
                                         <button class="accordion-button bg-dark text-light ps-3 pe-3 pt-2 pb-2 collapsed w-100" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInner{{$key}}{{$index}}" aria-expanded="false" aria-controls="collapseInner{{$key}}{{$index}}">
                                             <h2 class="accordion-header" id="headingInner{{$key}}{{$index}}">
@@ -72,32 +72,12 @@
                                             <span><i class="fas fa-sticky-note"></i></span>
                                             <span> {{$exam->name}} </span>
                                         </h2>
-                                        <a class="btn subscribe-btn no-toggle" data-bs-toggle="modal" data-bs-target="#examModal">الدخول للامتحان</a>
-                                        <!-- Modal -->
-                                        {{-- <div class="modal fade" id="examModal" tabindex="-1" aria-labelledby="examModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                <h5 class="modal-title" id="examModalLabel">الامتحان</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                <h6 class="text-danger">تعليمات هامة</h6>
-                                                <ul>
-                                                    <li>الامتحان يفتح مرة واحدة فقط</li>
-                                                    <li>عدد الاسئلة: 30 سؤال</li>
-                                                    <li>درجة النجاح: 30 درجات</li>
-                                                    <li>درجة الامتحان: 30 درجة</li>
-                                                    <li>مدة الامتحان: 30 دقيقة</li>
-                                                </ul>
-                                                </div>
-                                                <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
-                                                <button type="button" class="btn btn-primary">ابدأ الامتحان</button>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div> --}}
+                                        <a type="button" class="btn subscribe-btn open-modal" data-bs-toggle="modal" data-bs-target="#examModal" 
+                                           data-exam-id="{{ $exam->id }}"
+                                           data-exam-name="{{ $exam->name }}"
+                                           data-exam-questions="{{ $exam->questions()->count() }}"
+                                           data-exam-degree="{{ $exam->degree }}"
+                                           data-exam-time="{{ $exam->time }}">الدخول للامتحان</a>
                                     </button>
                                     <div id="collapseInner{{$key}}{{$inc}}{{$inc}}" class="accordion-collapse collapse w-100 text-justify" aria-labelledby="headingInner{{$key}}{{$inc}}{{$inc}}" data-bs-parent="#collapse{{$key}}">
                                         <div class="accordion-body text-light w-100 nested-accordion">
@@ -142,6 +122,31 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="examModal" tabindex="-1" aria-labelledby="examModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius: 40px;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="examModalLabel">الامتحان</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6 class="text-danger">تعليمات هامة</h6>
+                <ul>
+                    <li>الامتحان يفتح مرة واحدة فقط</li>
+                    <li>عدد الاسئلة: <span id="exam-questions">30</span> سؤال</li>
+                    <li>درجة النجاح: <span id="exam-degree">30</span> درجات</li>
+                    <li>درجة الامتحان: <span id="exam-degree">30</span> درجة</li>
+                    <li>مدة الامتحان: <span id="exam-time">30</span> دقيقة</li>
+                </ul>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <a href="#" id="start-exam-button" class="btn btn-gradient pt-2 pb-2 col-md-8">ابدأ الامتحان</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @push('scripts')
@@ -149,14 +154,31 @@
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.no-toggle').forEach(function(element) {
             element.addEventListener('click', function(event) {
-                event.preventDefault();  // Prevent the default action
-                event.stopPropagation(); // Stop the click event from propagating
-                // Perform any other desired actions here, such as opening a modal or redirecting
-                window.open(this.href, '_blank'); // Example: open the link in a new tab
+                if (!element.classList.contains('open-modal')) {
+                    event.preventDefault();  // Prevent the default action
+                    event.stopPropagation(); // Stop the click event from propagating
+                    window.open(this.href, '_blank'); // Example: open the link in a new tab
+                }
+            });
+        });
+
+        document.querySelectorAll('.open-modal').forEach(function(element) {
+            element.addEventListener('click', function() {
+                var examId = element.getAttribute('data-exam-id');
+                var examName = element.getAttribute('data-exam-name');
+                var examQuestions = element.getAttribute('data-exam-questions');
+                var examDegree = element.getAttribute('data-exam-degree');
+                var examTime = element.getAttribute('data-exam-time');
+
+                document.getElementById('examModalLabel').innerText = examName;
+                document.getElementById('exam-questions').innerText = examQuestions;
+                document.querySelectorAll('#exam-degree').forEach(function(el) {
+                    el.innerText = examDegree;
+                });
+                document.getElementById('exam-time').innerText = examTime;
+                document.getElementById('start-exam-button').setAttribute('href', '/course/content/exam/' + examId);
             });
         });
     });
-
-
 </script>
 @endpush
