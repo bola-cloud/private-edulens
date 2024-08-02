@@ -101,15 +101,15 @@
                 <p>{{ $course->description }}</p>
                 <div class="course-content-card">
                     <div>
-                        <span>4 شابتر</span>
+                        <span>{{$course->section()->count()}} شابتر</span>
                         <span><i class="fas fa-book"></i></span>
                     </div>
                     <div>
-                        <span>20 فيديو</span>
+                        <span>{{$videoCount}} فيديو</span>
                         <span><i class="fas fa-video"></i></span>
                     </div>
                     <div>
-                        <span>12 مذكرة</span>
+                        <span>{{$fileCount}} مذكرة</span>
                         <span><i class="fas fa-sticky-note"></i></span>
                     </div>
                 </div>

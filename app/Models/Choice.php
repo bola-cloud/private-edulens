@@ -22,4 +22,10 @@ class Choice extends Model
     {
         return $this->belongsToMany(User::class,'student_choices','choice_id','user_id');
     }
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'student_choices')
+            ->withPivot('is_true')
+            ->withTimestamps();
+    }
 }

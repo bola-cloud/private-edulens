@@ -69,6 +69,14 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Grade::class,'grade_id');
     }
+    public function choices()
+    {
+        return $this->belongsToMany(Choice::class, 'student_choices')->withPivot('is_true');
+    }
+    public function exam()
+    {
+        return $this->belongsToMany(Exam::class, 'student_exams')->withPivot('student_degree');
+    }
     /**
      * The accessors to append to the model's array form.
      *

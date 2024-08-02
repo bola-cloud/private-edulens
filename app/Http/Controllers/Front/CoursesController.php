@@ -14,9 +14,19 @@ class CoursesController extends Controller
     public function index($id)
     {
         Carbon::setLocale('ar');
-        $course= Course::find($id);
-        return view('front.course-content',compact('course'));
+        $course = Course::with('section.media')->find($id);
+        
+        $videoCount = 0;
+        $fileCount = 0;
+
+        foreach ($course->section as $section) {
+            $videoCount += $section->media->where('type', 'video')->count();
+            $fileCount += $section->media->where('type', 'file')->count();
+        }
+
+        return view('front.course-content', compact('course', 'videoCount', 'fileCount'));
     }
+
 
     public function video($id)
     {
