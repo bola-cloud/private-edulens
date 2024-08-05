@@ -23,6 +23,7 @@
             }
         </style>
         @stack('styles')
+        @livewireStyles
     </head>
     <body class="font-sans antialiased">
         <div class="container-fluid shadow-card">
@@ -40,9 +41,28 @@
                            <div class="mt-3 ms-3 me-3" style="font-size: x-large;">
                                 <i class="far fa-bell"></i>
                            </div>
-                           <div class="me-3">
-                                <img src="{{asset('media/profile picture of person in glasses and orange shirt.svg')}}" alt="">
-                           </div>
+
+                           <div class="dropdown">
+                                <div class="me-3 cursor-pointer" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <a href="btn">
+                                        <img src="{{ asset('media/profile picture of person in glasses and orange shirt.svg') }}" alt="Profile Picture" class="dropdown-toggle">
+                                    </a>
+                                </div>
+                            
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                    @auth
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <button type="submit" class="dropdown-item">Logout</button>
+                                        </form>
+                                    @else
+                                        <a href="{{ route('login') }}" class="dropdown-item">Login</a>
+                                        <a href="{{ route('register') }}" class="dropdown-item">Register</a>
+                                    @endauth
+                                </div>
+                            </div>
+                        
+                           
                         </div>
                     </div>
                 </div>
@@ -85,7 +105,8 @@
                 </div>
             </div>
         </footer>
-
+        
+        @livewireScripts
         <!-- Latest compiled JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>

@@ -2,23 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Validator;
-
 
 class AuthController extends Controller
 {
-    /**
-     * Handle an authentication attempt.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function showLoginForm()
+    {
+        return view('auth.login');
+    }
+
+    public function showRegistrationForm()
+    {
+        // Assuming you fetch grades and governorates for the registration form
+        $grades = \App\Models\Grade::all();
+        $governorates = \App\Models\Governorate::all();
+
+        return view('auth.register', compact('grades', 'governorates'));
+    }
+
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -27,24 +32,16 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 401);
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
         if (Auth::attempt(['phone' => $request->phone, 'password' => $request->password])) {
-            $user = Auth::user();
-            $token = $user->createToken('token-name')->plainTextToken;
-            return redirect()->route('dashboard');
+            return redirect()->route('home');
         }
 
-        return response()->json(['error' => 'Unauthorized'], 401);
+        return redirect()->back()->withErrors(['phone' => 'Unauthorized'])->withInput();
     }
 
-    /**
-     * Handle a registration request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function register(Request $request)
     {
         $request->validate([
@@ -71,15 +68,18 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Assuming you want to log in the user after registration
         Auth::login($user);
 
-        // Return an Inertia response with the authenticated user data
-        return redirect()->route('login');
+        return redirect()->route('home');
     }
 
-    public function admin()
+    public function logout(Request $request)
     {
-        return view('admin.dashboard');
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }

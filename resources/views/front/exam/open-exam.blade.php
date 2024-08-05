@@ -29,7 +29,7 @@
                             </div>
                         </div>
                     @else
-                        <div class="exam-header">
+                        <div class="exam-header bg-dark">
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="exam-timer text-danger">

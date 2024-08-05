@@ -1,7 +1,9 @@
 @extends('layouts.front')
 
 @section('content')
+<style>
 
+</style>
 <div class="container-fluid">
     <div class="container-image">
         <div class="row">
@@ -49,11 +51,15 @@
                                                 @endif 
                                                 <span> {{$media->name}} </span>
                                             </h2>
-                                            @if($media->type == "video")
-                                                <a href="{{route('video_show',$media->id)}}" class="btn subscribe-btn no-toggle">مشاهدة الفيديو</a>
-                                            @elseif($media->type == "file")
-                                                <a href="{{ url('/images/media/' . basename($media->path)) }}" class="btn subscribe-btn no-toggle" target="_blank">مشاهدة الملف</a>
-                                            @endif 
+                                            @if (Auth::check())
+                                                @if (!Auth::user()->courses()->where('course_id',$course->id)->exists())
+                                                    @if($media->type == "video")
+                                                        <a href="{{route('video_show',$media->id)}}" class="btn subscribe-btn no-toggle">مشاهدة الفيديو</a>
+                                                    @elseif($media->type == "file")
+                                                        <a href="{{ url('/images/media/' . basename($media->path)) }}" class="btn subscribe-btn no-toggle" target="_blank">مشاهدة الملف</a>
+                                                    @endif 
+                                                @endif
+                                            @endif
                                         </button>
                                     </div>
                                     
@@ -72,12 +78,17 @@
                                             <span><i class="fas fa-sticky-note"></i></span>
                                             <span> {{$exam->name}} </span>
                                         </h2>
-                                        <a type="button" class="btn subscribe-btn open-modal" data-bs-toggle="modal" data-bs-target="#examModal" 
-                                           data-exam-id="{{ $exam->id }}"
-                                           data-exam-name="{{ $exam->name }}"
-                                           data-exam-questions="{{ $exam->questions()->count() }}"
-                                           data-exam-degree="{{ $exam->degree }}"
-                                           data-exam-time="{{ $exam->time }}">الدخول للامتحان</a>
+                                        @if (Auth::check())
+                                            @if (!Auth::user()->courses()->where('course_id',$course->id)->exists())
+                                                    <a type="button" class="btn subscribe-btn open-modal" data-bs-toggle="modal" data-bs-target="#examModal" 
+                                                    data-exam-id="{{ $exam->id }}"
+                                                    data-exam-name="{{ $exam->name }}"
+                                                    data-exam-questions="{{ $exam->questions()->count() }}"
+                                                    data-exam-degree="{{ $exam->degree }}"
+                                                    data-exam-time="{{ $exam->time }}">الدخول للامتحان</a>
+                                            @endif
+                                        @endif
+                                       
                                     </button>
                                     <div id="collapseInner{{$key}}{{$inc}}{{$inc}}" class="accordion-collapse collapse w-100 text-justify" aria-labelledby="headingInner{{$key}}{{$inc}}{{$inc}}" data-bs-parent="#collapse{{$key}}">
                                         <div class="accordion-body text-light w-100 nested-accordion">
@@ -113,19 +124,88 @@
                         <span><i class="fas fa-sticky-note"></i></span>
                     </div>
                 </div>
-                <div class="row p-3" style="border-top:2px solid #fcfcfc">
-                    <div class="price col-md-4">200 ج م</div>
-                    <a href="#" class="btn btn-gradient pt-2 pb-2 col-md-8">اشترك الان</a>
-                </div>
+                @if(Auth::check())
+                    @if(!Auth::user()->courses()->where('course_id',$course->id)->exists())
+                        <div class="row p-3" style="border-top:2px solid #fcfcfc">
+                            <div class="price col-md-4">{{$course->price}} ج م</div>
+                            <a href="#" class="btn btn-gradient pt-2 pb-2 col-md-8" data-bs-toggle="modal" data-bs-target="#purchaseModal">اشترك الان</a>
+                        </div>
+                    @endif
+                @else
+                    <div class="row p-3" style="border-top:2px solid #fcfcfc">
+                        <div class="price col-md-4">{{$course->price}} ج م</div>
+                        <a href="{{route('login')}}" class="btn btn-gradient pt-2 pb-2 col-md-8">اشترك الان</a>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Purchase Modal -->
+<div class="modal fade" id="purchaseModal" tabindex="-1" aria-labelledby="purchaseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-radius bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title" id="purchaseModalLabel">شراء الكورس</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <!-- Payment Method -->
+                    <div class="mb-3">
+                        <label class="form-label d-flex">طريقة الدفع</label>
+                        <div class="form-check custom-radio pay-method col-md-3 me-3">
+                            <label class="form-check-label custom-radio-label" for="wallet">المحفظة</label>
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="wallet" value="wallet" checked>
+                        </div>
+                        <div class="form-check custom-radio pay-method col-md-3 me-3">
+                            <label class="form-check-label custom-radio-label" for="bayMob">باي موب</label>
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="bayMob" value="bayMob">
+                        </div>
+                        {{-- <div class="form-check custom-radio pay-method col-md-3 me-3">
+                            <label class="form-check-label custom-radio-label" for="code">كود</label>
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="code" value="code">
+                        </div> --}}
+                    </div>
+
+                    <!-- Payment Code -->
+                    <div class="mb-3" id="paymentCodeDiv" style="display: none;">
+                        <label class="form-label">كود</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-white" placeholder="أدخل كود الدفع">
+                            <button class="btn btn-confirm" type="button">تأكيد</button>
+                        </div>
+                    </div>
+
+                    <!-- Discount Code -->
+                    <div class="mb-3">
+                        <label class="form-label">كود الخصم</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-white" placeholder="كود الخصم">
+                            <button class="btn btn-apply" type="button">تطبيق</button>
+                        </div>
+                    </div>
+
+                    <!-- Pricing Details -->
+                    <div class="mb-3">
+                        <p> سعر الكورس: <span class="text-beige"> {{$course->price}} ج.م </span></p>
+                        <p> الخصم: <span class="text-beige"> 0 ج.م </span></p>
+                        <p> الإجمالي: <span class="text-beige"> 200 ج.م </span> </p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-gradient pt-2 pb-2 w-100">تأكيد</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal -->
+
+<!-- Exam Modal -->
 <div class="modal fade" id="examModal" tabindex="-1" aria-labelledby="examModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content" style="border-radius: 40px;">
+        <div class="modal-content modal-radius bg-dark">
             <div class="modal-header">
                 <h5 class="modal-title" id="examModalLabel">الامتحان</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -150,6 +230,22 @@
 @endsection
 
 @push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const paymentMethods = document.querySelectorAll('input[name="paymentMethod"]');
+        const paymentCodeDiv = document.getElementById('paymentCodeDiv');
+
+        paymentMethods.forEach((method) => {
+            method.addEventListener('change', function () {
+                if (this.value === 'code') {
+                    paymentCodeDiv.style.display = 'block';
+                } else {
+                    paymentCodeDiv.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.no-toggle').forEach(function(element) {

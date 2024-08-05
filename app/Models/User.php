@@ -40,6 +40,28 @@ class User extends Authenticatable
         'is_loggin',
     ];
 
+    public function transaction()
+    {
+        return $this->hasMany(Transaction::class,'user_id');
+    }
+    public function grade()
+    {
+        return $this->belongsTo(Grade::class,'grade_id');
+    }
+    public function choices()
+    {
+        return $this->belongsToMany(Choice::class, 'student_choices')->withPivot('is_true');
+    }
+    public function exam()
+    {
+        return $this->belongsToMany(Exam::class, 'student_exams')->withPivot('student_degree');
+    }
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'student_courses');
+    }
+
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -61,22 +83,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function transaction()
-    {
-        return $this->hasMany(Transaction::class,'user_id');
-    }
-    public function grade()
-    {
-        return $this->belongsTo(Grade::class,'grade_id');
-    }
-    public function choices()
-    {
-        return $this->belongsToMany(Choice::class, 'student_choices')->withPivot('is_true');
-    }
-    public function exam()
-    {
-        return $this->belongsToMany(Exam::class, 'student_exams')->withPivot('student_degree');
-    }
     /**
      * The accessors to append to the model's array form.
      *

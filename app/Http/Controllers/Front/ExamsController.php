@@ -15,12 +15,12 @@ class ExamsController extends Controller
 {
     public function exam($id)
     {
-        $exam = Exam::with('questions.choice')->find($id);
         $user = Auth::user();
+        $exam = Exam::with('questions.choice')->find($id);
         $completed = $user->exam()->where('exam_id', $id)->first();
         return view('front.exam.open-exam', compact('exam', 'completed'));
     }
-
+    
     public function submitExam(Request $request, $exam_id)
     {
         $exam = Exam::with(['questions.choice'])->findOrFail($exam_id);
