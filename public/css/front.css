@@ -597,12 +597,35 @@ i.fas.fa-clipboard-list,i.fas.fa-book,i.fas.fa-wallet{
 .sidebar a.active {
     background-color: white;
     color: #000 !important;
-    border-right: 2px solid #b89549;
+    border-right: 4px solid #b89549;
     border-radius: 10px;
+    font-weight: 500 !important;
 }
 .content-section {
     display: none;
 }
 .content-section.active {
     display: block;
+}
+.contact-section {
+    border-radius: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 20px;
+}
+
+.contact-section p {
+    margin-bottom: 0.5rem;
+}
+
+.contact-section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.contact-icon {
+    margin-left: 8px;
 }

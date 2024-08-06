@@ -187,50 +187,50 @@
                 <div class="dashboard-header">
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="card text-center">
+                            <div class="card text-center bg-white">
                                 <div class="card-body">
-                                    <h5 class="card-title">الرصيد</h5>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title text-dark">الرصيد</h5>
+                                        <i class="fas fa-wallet"></i>
+                                    </div>
                                     <p class="card-text">430 ج.م</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card mt-3 bg-light" style="border-radius: 16px !important;">
                     <div class="card-body">
                         <h5 class="card-title">شحن المحفظة</h5>
                         <p>يمكنك شحن المحفظة عن طريق ارسال المبلغ موبايل كاش على الارقام التالية</p>
-                        <!-- Tabs for Toggling Content -->
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="whatsapp-tab" data-bs-toggle="tab" data-bs-target="#whatsapp" type="button" role="tab" aria-controls="whatsapp" aria-selected="true">ارقام واتساب</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="vodafone-tab" data-bs-toggle="tab" data-bs-target="#vodafone" type="button" role="tab" aria-controls="vodafone" aria-selected="false">ارقام فودافون كاش</button>
-                            </li>
-                        </ul>
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="whatsapp" role="tabpanel" aria-labelledby="whatsapp-tab">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p>01220221292</p>
-                                        <p>01220221292</p>
-                                        <p>01220221292</p>
+                        <!-- Contact Sections -->
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="contact-section bg-white text-light">
+                                    <div class="contact-section-title">
+                                        ارقام واتساب
+                                        <i class="fab fa-whatsapp contact-icon"></i>
                                     </div>
+                                    <p>01220221292</p>
+                                    <p>01220221292</p>
+                                    <p>01220221292</p>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="vodafone" role="tabpanel" aria-labelledby="vodafone-tab">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p>01220221292</p>
-                                        <p>01220221292</p>
-                                        <p>01220221292</p>
+                            <div class="col-md-6">
+                                <div class="contact-section bg-white text-light">
+                                    <div class="contact-section-title">
+                                        ارقام فودافون كاش
+                                        <i class="fas fa-money-bill-wave contact-icon"></i>
                                     </div>
+                                    <p>01220221292</p>
+                                    <p>01220221292</p>
+                                    <p>01220221292</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                
             </div>
             <!-- Balance History Section -->
             <div id="balance-history" class="content-section">

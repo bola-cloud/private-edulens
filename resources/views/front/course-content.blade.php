@@ -63,6 +63,11 @@
                                             </h2>
                                             @if (Auth::check())
                                                 @if (Auth::user()->courses()->where('course_id',$course->id)->exists())
+                                                    <style>
+                                                        .accordion-button::after{
+                                                            margin-right: unset !important;
+                                                        }
+                                                    </style>
                                                     @if($media->type == "video")
                                                         <a href="{{route('video_show',$media->id)}}" class="btn subscribe-btn no-toggle">مشاهدة الفيديو</a>
                                                     @elseif($media->type == "file")
