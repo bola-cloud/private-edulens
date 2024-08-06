@@ -96,7 +96,6 @@ body{
 .shadow-card {
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
     border-radius: 8px; /* Optional: rounded corners for card-like effect */
-    padding: 10px; /* Optional: padding inside the nav */
     border-radius: 6px;
 }
 .bg-grey{
@@ -349,6 +348,7 @@ body{
     flex: 1;
     z-index: 2;
     position: relative;
+    max-height: 95vh;
 }
 .course-card img {
     width: 100%;
@@ -395,7 +395,6 @@ body{
     padding: 10px;
     border-radius: 5px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     cursor: pointer;
 }
@@ -533,4 +532,77 @@ button.btn-close{
 }
 .modal-radius{
     border-radius: 40px;
+}
+/* student-profile */
+.dashboard-header .card {
+    border: 4px solid #f3f1f1 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header .card .card-body {
+    padding: 1.5rem;
+}
+
+.dashboard-header .card .card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dashboard-header .card .card-title img {
+    width: 24px;
+    height: 24px;
+}
+
+.dashboard-header .card .card-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #d4af37; /* Gold color */
+    margin-top: 0.5rem;
+}
+
+.card-body p {
+    margin: 0;
+    font-size: 1rem;
+    color: #6c757d;
+}
+i.fas.fa-clipboard-list,i.fas.fa-book,i.fas.fa-wallet{
+    font-size: x-large;
+    margin: -43px 0 0 -24px;
+    background: #f3f1f1;
+    padding: 8px;
+}
+.sidebar {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0px 0px 10px 0px #00000026 inset;
+    min-height: 70vh;
+}
+.sidebar a {
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #000;
+    text-align: justify;
+}
+.sidebar a:hover {
+    background-color : white;
+    color: #000 !important;
+}
+.sidebar a.active {
+    background-color: white;
+    color: #000 !important;
+    border-right: 2px solid #b89549;
+    border-radius: 10px;
+}
+.content-section {
+    display: none;
+}
+.content-section.active {
+    display: block;
 }

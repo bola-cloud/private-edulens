@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\Media;
 use App\Models\Exam;
 use Carbon\Carbon;
+use Auth;
 
 class CoursesController extends Controller
 {
@@ -40,4 +41,20 @@ class CoursesController extends Controller
         $exam= Exam::find($id);
         return view('front.course-content',compact('exam'));
     }
+
+    public function subscribe(Request $request)
+    {
+        $user=Auth::user();
+        $course=Course::find($request->course_id);
+        if($user&& $user->wallet >= $course->price && $request->paymentMethod =="wallet")
+        {
+            $user->courses()->attach($course->id);
+            $user->update(['wallet' => $user->wallet-=$course->price]);
+        }
+        elseif($user->wallet < $course->price && $request->paymentMethod =="wallet"){
+            return redirect()->back()->with('error','لا يوجد رصيد كافي بالمحفظة');
+        }
+        return redirect()->back()->with('success','تم شراء الكورس بنجاح');
+    }
+
 }

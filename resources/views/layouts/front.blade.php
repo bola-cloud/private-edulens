@@ -27,10 +27,12 @@
     </head>
     <body class="font-sans antialiased">
         <div class="container-fluid shadow-card">
-            <nav class="container-fluid ps-4 pe-4">
+            <nav class="container-fluid ps-4 pe-4 pt-2 pb-2">
                 <div class="row d-flex justify-content-between">
                     <div class="col-md-3 d-flex align-content-center me-3 p-2">
-                        <img src="{{asset('media/Vector.svg')}}" alt="">
+                        <a href="{{route('home')}}">
+                            <img src="{{asset('media/Vector.svg')}}" alt="">
+                        </a>
                         <h5 class="d-flex align-content-center me-3 mt-2 "> المرضي </h5>
                     </div>
                     <div class="col-md-4">
@@ -43,31 +45,36 @@
                            </div>
 
                            <div class="dropdown">
-                                <div class="me-3 cursor-pointer" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <a href="btn">
-                                        <img src="{{ asset('media/profile picture of person in glasses and orange shirt.svg') }}" alt="Profile Picture" class="dropdown-toggle">
-                                    </a>
-                                </div>
-                            
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                    @auth
-                                        <form method="POST" action="{{ route('logout') }}">
-                                            @csrf
-                                            <button type="submit" class="dropdown-item">Logout</button>
-                                        </form>
-                                    @else
-                                        <a href="{{ route('login') }}" class="dropdown-item">Login</a>
-                                        <a href="{{ route('register') }}" class="dropdown-item">Register</a>
-                                    @endauth
-                                </div>
+                            <div class="me-3 cursor-pointer" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a href="btn">
+                                    <img src="{{ asset('media/profile picture of person in glasses and orange shirt.svg') }}" alt="Profile Picture" class="dropdown-toggle">
+                                </a>
                             </div>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                @auth
+                                    <div class="dropdown-item" style="border-bottom: 2px solid gray;">
+                                        <!-- Display the student's name -->
+                                        <span > {{ Auth::user()->name }} </span>
+                                    </div>
+                                    <a href="{{ route('student-profile') }}" class="dropdown-item">Profile</a>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item">Logout</button>
+                                    </form>
+                                @else
+                                    <a href="{{ route('login') }}" class="dropdown-item">Login</a>
+                                    <a href="{{ route('register') }}" class="dropdown-item">Register</a>
+                                @endauth
+                            </div>
+                        </div>
                         
-                           
+
                         </div>
                     </div>
                 </div>
             </nav>
         </div>
+        
         @yield('content')
 
         <footer>

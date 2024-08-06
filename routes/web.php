@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\CoursesController;
 use App\Http\Controllers\Front\ExamsController;
+use App\Http\Controllers\Front\StudentsController;
 use App\Http\Controllers\Front\VideoController;
 use App\Http\Livewire\Dashboard;
 
@@ -129,6 +130,10 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/course/content/exam/{exam}', [ExamsController::class, 'exam'])->name('exam_show');
+    Route::post('/course/subscribe', [CoursesController::class, 'subscribe'])->name('course_subscribe'); 
+    Route::get('/student/profile', [StudentsController::class, 'index'])->name('student-profile'); 
+    Route::post('/profile/update', [StudentsController::class, 'update'])->name('profile.update');
+
 });
 
 // Front routes
@@ -139,4 +144,4 @@ Route::get('/course/content/video/{video}', [CoursesController::class, 'video'])
 Route::get('/video/{id}', [VideoController::class, 'getVideo'])->name('video.get');
 Route::post('/course/content/exam/result/{exam}', [ExamsController::class, 'submitExam'])->name('exam.submit'); 
 Route::get('/exam/{exam}/answers', [ExamsController::class, 'showAnswers'])->name('exam_answers');
-// Route::get('/course/content/exam/{exam}', [ExamsController::class, 'exam'])->name('exam_show');
+// Route::get('/course/content/exam/{exam}', [ExamsController::class, 'exam'])->name('exam_show');  

@@ -14,36 +14,37 @@ class GovernorateSeeder extends Seeder
     public function run(): void
     {
         $governorates = [
-            ['name' => 'Alexandria'],
-            ['name' => 'Aswan'],
-            ['name' => 'Asyut'],
-            ['name' => 'Beheira'],
-            ['name' => 'Beni Suef'],
-            ['name' => 'Cairo'],
-            ['name' => 'Dakahlia'],
-            ['name' => 'Damietta'],
-            ['name' => 'Faiyum'],
-            ['name' => 'Gharbia'],
-            ['name' => 'Giza'],
-            ['name' => 'Ismailia'],
-            ['name' => 'Kafr El Sheikh'],
-            ['name' => 'Luxor'],
-            ['name' => 'Matrouh'],
-            ['name' => 'Minya'],
-            ['name' => 'Monufia'],
-            ['name' => 'New Valley'],
-            ['name' => 'North Sinai'],
-            ['name' => 'Port Said'],
-            ['name' => 'Qalyubia'],
-            ['name' => 'Qena'],
-            ['name' => 'Red Sea'],
-            ['name' => 'Sharqia'],
-            ['name' => 'Sohag'],
-            ['name' => 'South Sinai'],
-            ['name' => 'Suez'],
+            ['name' => 'الإسكندرية'], // Alexandria
+            ['name' => 'أسوان'], // Aswan
+            ['name' => 'أسيوط'], // Asyut
+            ['name' => 'البحيرة'], // Beheira
+            ['name' => 'بني سويف'], // Beni Suef
+            ['name' => 'القاهرة'], // Cairo
+            ['name' => 'الدقهلية'], // Dakahlia
+            ['name' => 'دمياط'], // Damietta
+            ['name' => 'الفيوم'], // Faiyum
+            ['name' => 'الغربية'], // Gharbia
+            ['name' => 'الجيزة'], // Giza
+            ['name' => 'الإسماعيلية'], // Ismailia
+            ['name' => 'كفر الشيخ'], // Kafr El Sheikh
+            ['name' => 'الأقصر'], // Luxor
+            ['name' => 'مطروح'], // Matrouh
+            ['name' => 'المنيا'], // Minya
+            ['name' => 'المنوفية'], // Monufia
+            ['name' => 'الوادي الجديد'], // New Valley
+            ['name' => 'شمال سيناء'], // North Sinai
+            ['name' => 'بورسعيد'], // Port Said
+            ['name' => 'القليوبية'], // Qalyubia
+            ['name' => 'قنا'], // Qena
+            ['name' => 'البحر الأحمر'], // Red Sea
+            ['name' => 'الشرقية'], // Sharqia
+            ['name' => 'سوهاج'], // Sohag
+            ['name' => 'جنوب سيناء'], // South Sinai
+            ['name' => 'السويس'], // Suez
         ];
-
+        
         // Insert data into the database
         DB::table('governorates')->insert($governorates);
+        
     }
 }
