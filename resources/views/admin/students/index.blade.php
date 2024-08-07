@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>ادارة الطلاب</h1>
+    <h1 class="mt-3 mb-5">ادارة الطلاب</h1>
 
     <form method="GET" action="{{ route('students.index') }}" class="mb-4">
         <div class="row">

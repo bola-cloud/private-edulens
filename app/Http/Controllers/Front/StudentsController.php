@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Governorate;
+use App\Models\Transaction;
 use App\Models\Grade;
 use Auth;
 
@@ -14,9 +15,11 @@ class StudentsController extends Controller
     public function index()
     {
         $user = Auth::user();
+        // dd($user->exam);
         $governorates = Governorate::all();
         $grades = Grade::where('is_active', 1)->get();
-        return view('front.student-profile',compact('governorates','grades'));
+        $transactions = Transaction::where('user_id',$user->id)->with('user')->get();
+        return view('front.student-profile',compact('governorates','grades','transactions'));
     }
 
     public function update(Request $request)

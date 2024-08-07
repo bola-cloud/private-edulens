@@ -19,7 +19,7 @@
 
   <!-- endinject -->
   <!-- Plugin css for this page -->
-  <link rel="stylesheet" href="{{asset('vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}">
+  {{-- <link rel="stylesheet" href="{{asset('vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}"> --}}
   <link rel="stylesheet" href="{{asset('js/select.dataTables.min.css')}}">
   <!-- End plugin css for this page -->
   <!-- inject:css -->
@@ -31,24 +31,6 @@
 </head>
 <body style="direction: rtl !important;">
   <div class="container-scroller">
-    <div class="row p-0 m-0 proBanner" id="proBanner">
-      <div class="col-md-12 p-0 m-0">
-        {{-- <div class="card-body card-body-padding d-flex align-items-center justify-content-between">
-          <div class="ps-lg-1">
-            <div class="d-flex align-items-center justify-content-between">
-              <p class="mb-0 font-weight-medium me-3 buy-now-text">Free 24/7 customer support, updates, and more with this template!</p>
-              <a href="https://www.bootstrapdash.com/product/star-admin-pro/?utm_source=organic&utm_medium=banner&utm_campaign=buynow_demo" target="_blank" class="btn me-2 buy-now-btn border-0">Get Pro</a>
-            </div>
-          </div>
-          <div class="d-flex align-items-center justify-content-between">
-            <a href="https://www.bootstrapdash.com/product/star-admin-pro/"><i class="mdi mdi-home me-3 text-white"></i></a>
-            <button id="bannerClose" class="btn border-0 p-0">
-              <i class="mdi mdi-close text-white me-0"></i>
-            </button>
-          </div>
-        </div> --}}
-      </div>
-    </div>
     <!-- partial:partials/_navbar.html -->
     <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row" style="padding-top: 0 !important; margin-top:0 !important;">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start" style="direction:ltr !important;">
@@ -58,10 +40,11 @@
           </button>
         </div>
         <div>
-          <a class="navbar-brand brand-logo" href="index.html">
-            <img src="{{asset('images/logo.svg')}}" alt="logo" />
+          <a class="navbar-brand brand-logo d-flex align-items-center" href="{{route('home')}}">
+            <h4 class="m-2">المرضي</h4>
+            <img src="{{asset('media/Vector.svg')}}" alt="logo" /> 
           </a>
-          <a class="navbar-brand brand-logo-mini" href="index.html">
+          <a class="navbar-brand brand-logo-mini" href="{{route('home')}}">
             <img src="{{asset('images/logo-mini.svg')}}" alt="logo" />
           </a>
         </div>
@@ -69,7 +52,7 @@
       <div class="navbar-menu-wrapper d-flex align-items-top"> 
         <ul class="navbar-nav">
           <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-            <h1 class="welcome-text">Good Morning, <span class="text-black fw-bold">John Doe</span></h1>
+            <h1 class="welcome-text"> مرحبا, <span class="text-black fw-bold"> {{Auth::user()->name}} </span></h1>
             <h3 class="welcome-sub-text">Your performance summary this week </h3>
           </li>
         </ul>
@@ -404,27 +387,22 @@
             </a>
           </li>
 
-          <li class="nav-item nav-category d-flex" style="direction: rtl !important;">الصفوف الدراسية</li>
+          <li class="nav-item nav-category d-flex" style="direction: rtl !important;"> الصفوف الدراسية  </li>
           <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#grades" aria-expanded="false" aria-controls="grades">
-              <i class="menu-icon mdi mdi-floor-plan"></i>
-              <span class="menu-title">ادارة الصفوف الدراسية</span>
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+              <i class="menu-icon mdi mdi-layers-outline"></i>
+              <span class="menu-title"> ادارة الصفوف الدراسية </span>
               <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="grades">
+            <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item d-flex">
-                  <a class="nav-link {{ Route::is('grades.index') ? 'active' : '' }}"
-                    href="{{ route('grades.index') }}">عرض الصفوف</a>
-                </li>
-                <li class="nav-item d-flex">
-                  <a class="nav-link {{ Route::is('grades.create') ? 'active' : '' }}"
-                    href="{{ route('grades.create') }}">اضافة صف جديد</a>
-                </li>
+                <li class="nav-item {{ Route::currentRouteName() == "grades.index" ? 'active':'' }} d-flex"> <a class="nav-link" href="{{route('grades.index')}}">  عرض الصفوف </a></li>
+                <li class="nav-item {{ Route::currentRouteName() == "grades.create" ? 'active':'' }} d-flex"> <a class="nav-link" href="{{route('grades.create')}}">  اضافة صف جديد </a></li>
               </ul>
             </div>
-          </li>
-
+          </li> 
+          
+          
           <li class="nav-item nav-category d-flex" style="direction: rtl !important;">الفئات الدراسية</li>
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#category" aria-expanded="false" aria-controls="category">
@@ -511,8 +489,9 @@
           </li>
         </ul>
       </nav>
-
-      @yield('content')
+      <div class="main-panel">
+        @yield('content')
+      </div>
     </div>
     <!-- page-body-wrapper ends -->
   </div>

@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class=" mt-3">
+    <div class="mt-3 container-fluid">
         <div class="row d-flex justify-content-center">
             <div class="col-md-8">
                 <div class="card">

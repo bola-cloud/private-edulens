@@ -130,6 +130,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/course/content/exam/{exam}', [ExamsController::class, 'exam'])->name('exam_show');
+    Route::get('/exam/{exam}/answers', [ExamsController::class, 'showAnswers'])->name('exam_answers');
     Route::post('/course/subscribe', [CoursesController::class, 'subscribe'])->name('course_subscribe'); 
     Route::get('/student/profile', [StudentsController::class, 'index'])->name('student-profile'); 
     Route::post('/profile/update', [StudentsController::class, 'update'])->name('profile.update');
@@ -142,5 +143,4 @@ Route::middleware([
 Route::get('/', [HomeController::class, 'index'])->name('home'); 
 Route::get('/courses/{grade}', [HomeController::class, 'courses'])->name('courses'); 
 Route::get('/course/content/{course}', [CoursesController::class, 'index'])->name('course_content'); 
-Route::get('/exam/{exam}/answers', [ExamsController::class, 'showAnswers'])->name('exam_answers');
 // Route::get('/course/content/exam/{exam}', [ExamsController::class, 'exam'])->name('exam_show');  

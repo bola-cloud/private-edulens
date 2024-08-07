@@ -9,7 +9,7 @@
 </style>
 <div class="container">
     <div class="row justify-content-center mt-3">
-        <div class="col-md-10 card">
+        <div class="col-md-12 card">
             <div class="card-header d-flex justify-content-between align-items-center mt-3">
                 <h3>الكورسات</h3>
                 <a href="{{ route('courses.create') }}" class="btn btn-primary mb-3"> اضافة كورس جديد </a>

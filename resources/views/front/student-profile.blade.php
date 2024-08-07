@@ -6,18 +6,18 @@
         <!-- Sidebar -->
         <div class="col-md-3">
             <div class="sidebar bg-light">
-                <a href="#" data-target="stdeunt-data" class="text-dark"> بياناتي </a>
+                <a href="#" data-target="student-data" class="text-dark"> بياناتي </a>
                 <a href="#" data-target="wallet-recharge" class="text-dark">شحن المحفظة</a>
                 <a href="#" data-target="balance-history" class="text-dark">سجل الرصيد</a>
                 <a href="#" data-target="my-courses" class="text-dark">كورساتي</a>
                 <a href="#" data-target="my-exams" class="text-dark">امتحاناتي</a>
-                <a href="#" data-target="notifications" class="text-dark">الاشعارات</a>
+                {{-- <a href="#" data-target="notifications" class="text-dark">الاشعارات</a> --}}
             </div>
         </div>
         <!-- Main Content -->
         <div class="col-md-9">
-            <!-- Stdeunt-data Section -->
-            <div id="stdeunt-data" class="content-section active">
+            <!-- Student-data Section -->
+            <div id="student-data" class="content-section active">
                 <div class="dashboard-header mb-3">
                     <div class="row">
                         <div class="col-md-4">
@@ -27,7 +27,7 @@
                                         <h5 class="card-title text-dark">الرصيد</h5>
                                         <i class="fas fa-wallet"></i>
                                     </div>
-                                    <p class="card-text">430 ج.م</p>
+                                    <p class="card-text">{{ Auth::user()->wallet }} ج.م</p>
                                 </div>
                             </div>
                         </div>
@@ -38,7 +38,7 @@
                                         <h5 class="card-title text-dark">الكورسات</h5>
                                         <i class="fas fa-book"></i>
                                     </div>
-                                    <p class="card-text">3 كورس</p>
+                                    <p class="card-text">{{ Auth::user()->courses()->count() }} كورس</p>
                                 </div>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                                         <h5 class="card-title text-dark">الامتحانات</h5>
                                         <i class="fas fa-clipboard-list"></i>
                                     </div>
-                                    <p class="card-text">6 امتحان</p>
+                                    <p class="card-text">{{ Auth::user()->exam()->count() }} امتحان</p>
                                 </div>
                             </div>
                         </div>
@@ -158,7 +158,7 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div>                            
+                            </div>
                             <div class="mb-3 row">
                                 <label for="password" class="col-sm-2 col-form-label text-dark">كلمة المرور</label>
                                 <div class="col-sm-10">
@@ -193,7 +193,7 @@
                                         <h5 class="card-title text-dark">الرصيد</h5>
                                         <i class="fas fa-wallet"></i>
                                     </div>
-                                    <p class="card-text">430 ج.م</p>
+                                    <p class="card-text">{{ Auth::user()->wallet }} ج.م</p>
                                 </div>
                             </div>
                         </div>
@@ -206,8 +206,8 @@
                         <!-- Contact Sections -->
                         <div class="row mt-4">
                             <div class="col-md-6">
-                                <div class="contact-section bg-white text-light">
-                                    <div class="contact-section-title">
+                                <div class="contact-section bg-white text-dark p-3" style="border-radius: 16px;">
+                                    <div class="contact-section-title d-flex align-items-center justify-content-between">
                                         ارقام واتساب
                                         <i class="fab fa-whatsapp contact-icon"></i>
                                     </div>
@@ -217,8 +217,8 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="contact-section bg-white text-light">
-                                    <div class="contact-section-title">
+                                <div class="contact-section bg-white text-dark p-3" style="border-radius: 16px;">
+                                    <div class="contact-section-title d-flex align-items-center justify-content-between">
                                         ارقام فودافون كاش
                                         <i class="fas fa-money-bill-wave contact-icon"></i>
                                     </div>
@@ -235,22 +235,163 @@
             <!-- Balance History Section -->
             <div id="balance-history" class="content-section">
                 <div class="dashboard-header">
-                    <h5 class="card-title">سجل الرصيد</h5>
-                    <p>محتوى سجل الرصيد هنا...</p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card text-center bg-white">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title text-dark">الرصيد</h5>
+                                        <i class="fas fa-wallet"></i>
+                                    </div>
+                                    <p class="card-text">{{ Auth::user()->wallet }} ج.م</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-12 bg-light p-4 border-16">
+                            <table class="table bg-light table-shadow p-5">
+                                <thead class="bg-white">
+                                    <tr class="text-dark">
+                                        <th scope="col">الخدمة</th>
+                                        <th scope="col">المبلغ</th>
+                                        <th scope="col">طريقة الدفع</th>
+                                        {{-- <th scope="col">الرصيد السابق</th>
+                                        <th scope="col">الرصيد الحالي</th> --}}
+                                        <th scope="col">التاريخ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($transactions as $key => $transaction)
+                                        <tr class="text-dark">
+                                            @if ($transaction->type == "deposite")
+                                                <td>ايداع</td>
+                                            @else
+                                                <td>سحب</td>
+                                            @endif
+                                            <td>{{ $transaction->amount }}</td>
+                                            @if ($transaction->method == "wallet")
+                                                <td>محفظة</td>
+                                            @elseif($transaction->method == "code")
+                                                <td>كود</td>
+                                            @elseif($transaction->method == "paymob")
+                                                <td>باي موب</td>
+                                            @endif
+                                            <td>{{ $transaction->created_at }}</td>
+                                            {{-- <td>{{ $transaction->amount }}</td>
+                                            <td>{{ $transaction->amount }}</td> --}}
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- My Courses Section -->
             <div id="my-courses" class="content-section">
                 <div class="dashboard-header">
-                    <h5 class="card-title">كورساتي</h5>
-                    <p>محتوى كورساتي هنا...</p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card text-center bg-white">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title text-dark">الكورسات</h5>
+                                        <i class="fas fa-book"></i>
+                                    </div>
+                                    <p class="card-text">{{ Auth::user()->courses()->count() }} كورس</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-5 p-5 bg-light border-16">
+                        <div id="coursesCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                @php
+                                    $chunks = Auth::user()->courses->chunk(3);
+                                @endphp
+                                @foreach($chunks as $chunkIndex => $chunk)
+                                    <div class="carousel-item {{ $chunkIndex == 0 ? 'active' : '' }}">
+                                        <div class="row">
+                                            @foreach($chunk as $course)
+                                                <div class="col-md-4">
+                                                    <div class="card bg-white">
+                                                        <img class="card-img-top img-size" src="{{ asset($course->image) }}" alt="Course image">
+                                                        <div class="card-body">
+                                                            <h2 class="card-title text-end text-dark"> {{$course->name}} </h2>
+                                                        </div>
+                                                        <div class="card-footer bg-white">
+                                                            <a href="{{ route('course_content', $course->id) }}" class="btn btn-gradient d-flex justify-content-between pe-5 pt-2 pb-2 w-100">
+                                                                <span>مشاهدة الكورس</span>
+                                                                <i class="fas fa-chevron-left mt-2 ms-3"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#coursesCarousel" data-bs-slide="prev">
+                                <i class="fas fa-chevron-left"></i>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#coursesCarousel" data-bs-slide="next">
+                                <i class="fas fa-chevron-right"></i>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    
                 </div>
             </div>
             <!-- My Exams Section -->
             <div id="my-exams" class="content-section">
                 <div class="dashboard-header">
-                    <h5 class="card-title">امتحاناتي</h5>
-                    <p>محتوى امتحاناتي هنا...</p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card text-center bg-white">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title text-dark">الامتحانات</h5>
+                                        <i class="fas fa-clipboard-list"></i>
+                                    </div>
+                                    <p class="card-text">{{ Auth::user()->exam()->count() }} امتحان</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-12 bg-light p-4 border-16">
+                            <table class="table bg-light table-shadow p-5">
+                                <thead class="bg-white">
+                                    <tr class="text-dark">
+                                        <th scope="col">الامتحان</th>
+                                        <th scope="col">الدرجة</th>
+                                        <th scope="col"> النسبة</th>
+                                        {{-- <th scope="col">الرصيد السابق</th>
+                                        <th scope="col">الرصيد الحالي</th> --}}
+                                        <th scope="col">الاجابات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach(Auth::user()->exam as $key => $exam)
+                                        <tr class="text-dark">
+                                            <td>{{ $exam->name }}</td>
+                                            <td>{{ $exam->pivot->student_degree }}/{{ $exam->degree }}</td>
+                                            <td>{{ ($exam->pivot->student_degree/ $exam->degree) *100}} %</td>
+                                            <td>
+                                                <a href="{{route('exam_answers',$exam->id)}}" class="btn btn-beige pt-2 pb-2 ps-4 pe-4"> الاجابات </a>
+                                            </td>
+
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- Notifications Section -->
